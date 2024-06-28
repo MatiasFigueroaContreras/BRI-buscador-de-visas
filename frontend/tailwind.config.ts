@@ -9,31 +9,47 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'text': '#e6e6eb',
-        'background': '#020218',
-        'primary': '#ff1a90',
-        'secondary': '#25258d',
-        'accent': '#3434df',
-        'bg-shade-1': '#0B0B2A',
-        'bg-shade-2': '#0F0F38',
-        'bg-shade-3': '#121243',
-        'bg-shade-4': '#161655',
-        'red': '#FF0000',
-      },
-      boxShadow: {
-        'sh-hr': '0px 1px 8px 0px rgba(255, 26, 144, 0.4)',
-        'sh-primary': '0px 0px 50px 0px rgba(255, 26, 144, 0.65)',
-        'sh-white': '0px 0px 80px 0px rgba(230, 230, 235, 0.15)',
-        'sh-button': '2px 2px 6px 0px rgba(230, 230, 235, 0.10)',
-        'sh-button-hover': '2px 2px 6px 0px rgba(255, 26, 144, 0.35)',
-      },
-      dropShadow: {
-        'dsh-primary': '0px 0px 6px rgba(255, 26, 144, 0.85)'
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        text: {
+          primary: {
+            dark: "#040316",
+            light: "#FBFBFE",
+          },
+        },
+        background: "#FBFBFE",
+        primary: {
+          100: "#ced2d8",
+          200: "#9da5b1",
+          300: "#6d788a",
+          400: "#3c4b63",
+          500: "#0b1e3c",
+          600: "#091830",
+          700: "#071224",
+          800: "#040c18",
+          900: "#02060c",
+        },
+        secondary: {
+          100: "#f3f2ff",
+          200: "#e6e5ff",
+          300: "#dad7ff",
+          400: "#cdcaff",
+          500: "#c1bdff",
+          600: "#9a97cc",
+          700: "#747199",
+          800: "#4d4c66",
+          900: "#272633",
+        },
+        accent: {
+          100: "#d0d2db",
+          200: "#a1a5b7",
+          300: "#737894",
+          400: "#444b70",
+          500: "#151e4c",
+          600: "#11183d",
+          700: "#0d122e",
+          800: "#080c1e",
+          900: "#04060f",
+        },
+        red: "#FF0000",
       },
     },
   },

@@ -1,26 +1,29 @@
 import Link from "next/link";
 
 export default function PaginationBox({
-    children,
-    className,
-    active,
-    href,
+  children,
+  className,
+  active,
+  href,
 }: {
-    children: any;
-    className?: string;
-    active: boolean;
-    href: string;
+  children: any;
+  className?: string;
+  active: boolean;
+  href: string;
 }) {
-    return (
-        <Link
-            className={`${className}
-                        w-7 h-7 rounded  text-background 
-                        flex justify-center items-center font-medium
-                        hover:cursor-pointer hover:text-white hover:shadow-sh-white
-                        ${active ? "bg-primary" : "bg-text hover:bg-accent"}`}
-            href={href}
-        >
-            {children}
-        </Link>
-    );
+  return (
+    <Link
+      className={`${className} flex h-7 w-7 items-center justify-center 
+                    rounded font-medium hover:shadow-sh-white 
+                    hover:cursor-pointer hover:text-text-primary-light 
+                    ${
+                      active
+                        ? "bg-primary-500 text-text-primary-light"
+                        : "bg-secondary-200 text-text-primary-dark hover:bg-accent-400"
+                    }`}
+      href={href}
+    >
+      {children}
+    </Link>
+  );
 }

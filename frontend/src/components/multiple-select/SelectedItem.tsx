@@ -1,16 +1,23 @@
 import CancelIcon from "../icons/CancelIcon";
 import { Option } from "./MultipleSelect";
 
-export default function SelectedItem({option, onClick} : {option: Option, onClick: () => void}) {
+export default function SelectedItem({
+  option,
+  onClick,
+}: {
+  option: Option;
+  onClick: () => void;
+}) {
   return (
-      <div
-          className="flex gap-1 px-2 py-0.5 rounded-md bg-accent text-text cursor-default"
-      >
-          <p>{option.label}</p>
-          <CancelIcon
-              className="fill-white w-4 cursor-pointer hover:fill-primary"
-              onClick={onClick}
-          />
-      </div>
+    <div
+      className="flex cursor-default gap-1 rounded-md bg-secondary-200 
+                 px-2 py-0.5 text-text-primary-dark"
+    >
+      <p>{option.label}</p>
+      <CancelIcon
+        className="w-4 cursor-pointer fill-accent-500 hover:fill-secondary-700"
+        onClick={onClick}
+      />
+    </div>
   );
 }
