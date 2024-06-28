@@ -1,62 +1,15 @@
-"use client";
-
-import Button from "@/components/button/Button";
-import MultipleSelect from "@/components/multiple-select/MultipleSelect";
-import Pagination from "@/components/pagination/Pagination";
-import Select from "@/components/select/Select";
+import VisaSearchBar from "@/components/visa-search-bar/VisaSearchBar";
 
 export default function Home() {
-    return (
-        <main className="flex min-h-screen flex-col items-center gap-8 p-24">
-            <div className="grid gap-4 w-72">
-                <h4 className="text-xl font-bold text-black">
-                    Multiple Select Component
-                </h4>
-                <MultipleSelect
-                    placeholder="Selecciona una opcion"
-                    options={[
-                        {
-                            value: "1",
-                            label: "Option 1",
-                        },
-                        {
-                            value: "2",
-                            label: "Option 2",
-                        },
-                        {
-                            value: "3",
-                            label: "Option",
-                        },
-                    ]}
-                    onChange={(options) => {
-                        console.log(options);
-                    }}
-                />
-            </div>
-            <div className="grid gap-4 w-72">
-                <h4 className="text-xl font-bold text-black">
-                    Select Component
-                </h4>
-                <Select
-                    placeholder="Selecciona una opcion"
-                >
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                </Select>
-            </div>
-            <div>
-                <h4 className="text-xl font-bold text-black">
-                    Button Component
-                </h4>
-                <Button className="w-60 h-8">CLICK ME!</Button>
-            </div>
-            <div>
-                <h4 className="text-xl font-bold text-black">
-                    Pagination Component
-                </h4>
-                <Pagination totalItems={100} pageSize={10}/>
-            </div>
-        </main>
-    );
+  return (
+    <main className="flex min-h-screen w-full flex-col">
+      <section className="clip-triangle-down flex h-2/5 w-full flex-col items-center gap-2 bg-gradient-to-t from-primary-500 to-accent-500 p-14 text-text-primary-light">
+        <h1 className="text-4xl font-bold">Buscador de Visas</h1>
+        <h4 className="mb-3 text-xl text-secondary-200">
+          Todo lo que necesitas saber sobre visas de viajes
+        </h4>
+        <VisaSearchBar />
+      </section>
+    </main>
+  );
 }
