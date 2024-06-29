@@ -18,7 +18,7 @@ export default function OptionsDropdown({
 
   return (
     <section
-      className="absolute left-0 z-10 mt-[1px] 
+      className="absolute left-0 z-50 mt-[1px] 
                   grid max-h-40 w-full gap-0.5 overflow-y-auto 
                   rounded-md bg-background px-1 py-1.5 
                   text-sm text-text-primary-dark shadow-lg"

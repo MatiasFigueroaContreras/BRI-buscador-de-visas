@@ -10,7 +10,7 @@ export default function SelectedItem({
 }) {
   return (
     <div
-      className="flex cursor-default gap-1 rounded-md bg-secondary-200 
+      className="flex items-center cursor-default gap-1 rounded-md bg-secondary-200 
                  px-2 py-0.5 text-text-primary-dark"
     >
       <p>{option.label}</p>
@@ -19,5 +19,5 @@ export default function SelectedItem({
         onClick={onClick}
       />
     </div>
-  );
+  )
 }

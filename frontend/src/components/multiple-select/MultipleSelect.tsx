@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
-import { useRef, useState } from "react";
-import ArrowDownIcon from "../icons/ArrowDownIcon";
-import SelectedItem from "./SelectedItem";
-import OptionsDropdown from "./OptionsDropdown";
-import { useMultipleSelect } from "./useMultipleSelect";
-import CloseIcon from "../icons/CloseIcon";
-import { useClickOutside } from "./useClickOutside";
+import { useRef, useState } from "react"
+import ArrowDownIcon from "../icons/ArrowDownIcon"
+import SelectedItem from "./SelectedItem"
+import OptionsDropdown from "./OptionsDropdown"
+import { useMultipleSelect } from "./useMultipleSelect"
+import CloseIcon from "../icons/CloseIcon"
+import { useClickOutside } from "./useClickOutside"
 
 export type Option = {
-  value: string | number;
-  label: string;
-};
+  value: string | number
+  label: string
+}
 
-const emptyOptions: Option[] = [];
+const emptyOptions: Option[] = []
 
 export default function MultipleSelect({
   options,
@@ -22,27 +22,27 @@ export default function MultipleSelect({
   onChange,
   className,
 }: {
-  options: Option[];
-  defaultValue?: Option[];
-  placeholder: string;
-  onChange?: (selectedOptions: Option[]) => void;
-  className?: string;
+  options: Option[]
+  defaultValue?: Option[]
+  placeholder: string
+  onChange?: (selectedOptions: Option[]) => void
+  className?: string
 }) {
   const boxRef = useClickOutside({
     handler: () => {
-      setIsOptionsOpen(false);
+      setIsOptionsOpen(false)
     },
-  });
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  })
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
   const { selected, unselected, addSelected, removeSelected, removeAll } =
-    useMultipleSelect(options, defaultValue);
+    useMultipleSelect(options, defaultValue)
 
   const handleChangeInput = (event: any) => {
-    const value = event.target.value;
-    setSearchValue(value);
-  };
+    const value = event.target.value
+    setSearchValue(value)
+  }
 
   const renderSelectedOptions = () => {
     return selected.map((option, index) => (
@@ -53,8 +53,8 @@ export default function MultipleSelect({
           onChange ? onChange(removeSelected(option)) : removeSelected(option)
         }
       />
-    ));
-  };
+    ))
+  }
 
   return (
     <div ref={boxRef} className="relative select-none">
@@ -68,7 +68,7 @@ export default function MultipleSelect({
         <div
           className="flex grow flex-wrap gap-1"
           onClick={() => {
-            inputRef.current?.focus();
+            inputRef.current?.focus()
           }}
         >
           {renderSelectedOptions()}
@@ -82,7 +82,7 @@ export default function MultipleSelect({
             placeholder={selected.length == 0 ? placeholder : ""}
             value={searchValue}
             onFocus={() => {
-              setIsOptionsOpen(true);
+              setIsOptionsOpen(true)
             }}
           />
         </div>
@@ -100,7 +100,7 @@ export default function MultipleSelect({
                                     isOptionsOpen && "rotate-180"
                                   }`}
             onClick={() => {
-              setIsOptionsOpen((prev) => !prev);
+              setIsOptionsOpen((prev) => !prev)
             }}
           />
         </div>
@@ -111,11 +111,11 @@ export default function MultipleSelect({
             option.label.toLowerCase().includes(searchValue.toLowerCase())
           )}
           onSelect={(option) => {
-            onChange ? onChange(addSelected(option)) : addSelected(option);
-            setSearchValue("");
+            onChange ? onChange(addSelected(option)) : addSelected(option)
+            setSearchValue("")
           }}
         />
       )}
     </div>
-  );
+  )
 }
