@@ -54,7 +54,6 @@ class VisaIndexer:
             "User-Agent": "PostmanRuntime/7.39.0",
             "Accept": "*/*",
             "Accept-Language": "en-US,en;q=0.5",
-            "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive"
         }
 
@@ -96,6 +95,7 @@ class VisaIndexer:
             "extension_possibility": row['Possibility of Extension'],
             "evisa_availability": row['E-visa Availability'],
             "type_of_visa": row['Type of Visa'],
+            "capital_required": row['Monetary Capital Required(USD)'],
             "url": url,
             "content": content
         }
@@ -126,7 +126,7 @@ class VisaIndexer:
 
 def main():
     indexer = VisaIndexer(
-        index_name="visas", index_config_file="index_config.json", excel_file="Visas.xlsx")
+        index_name="visas", index_config_file="index_config.json", excel_file="Visas2.xlsx")
     indexer.index_documents()
 
 
