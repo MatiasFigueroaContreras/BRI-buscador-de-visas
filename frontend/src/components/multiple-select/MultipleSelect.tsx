@@ -39,6 +39,13 @@ export default function MultipleSelect({
   const { selected, unselected, addSelected, removeSelected, removeAll } =
     useMultipleSelect(options, defaultValue)
 
+  const normalizeString = (str: string) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+  }
+
   const handleChangeInput = (event: any) => {
     const value = event.target.value
     setSearchValue(value)
@@ -108,7 +115,7 @@ export default function MultipleSelect({
       {isOptionsOpen && (
         <OptionsDropdown
           options={unselected.filter((option) =>
-            option.label.toLowerCase().includes(searchValue.toLowerCase())
+            normalizeString(option.label).includes(normalizeString(searchValue))
           )}
           onSelect={(option) => {
             onChange ? onChange(addSelected(option)) : addSelected(option)
