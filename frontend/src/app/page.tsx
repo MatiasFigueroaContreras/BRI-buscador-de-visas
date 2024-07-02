@@ -1,6 +1,21 @@
 import VisaSearchBar from "@/components/visa-search-bar/VisaSearchBar";
+import visaService from "@/services/VisaService";
 
-export default function Home() {
+export default async function Home() {
+    const searchOptions = await visaService.getSearchOptions()
+    const visaTypes = searchOptions.type_of_visa.map(
+      (type: { key: string; doc_count: number }) => ({
+        label: type.key,
+        value: type.key,
+      })
+    )
+    const countries = searchOptions.destination_country.map(
+      (country: string) => ({
+        label: country,
+        value: country,
+      })
+    )
+
   return (
     <main className="flex min-h-screen w-full flex-col">
       <section className="clip-triangle-down flex h-2/5 w-full flex-col items-center gap-2 bg-gradient-to-t from-primary-500 to-accent-500 p-14 text-text-primary-light">
@@ -8,7 +23,7 @@ export default function Home() {
         <h4 className="mb-3 text-xl text-secondary-200">
           Todo lo que necesitas saber sobre visas de viajes
         </h4>
-        <VisaSearchBar />
+        <VisaSearchBar countries={countries} visaTypes={visaTypes} />
       </section>
     </main>
   );
