@@ -1,0 +1,44 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "page_content_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "stop",
+                        "snowball",
+                        "edge_ngram_filter"
+                    ]
+                },
+                "search_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "stop",
+                        "snowball"
+                    ]
+                }
+            },
+            "filter": {
+                "edge_ngram_filter": {
+                    "type": "edge_ngram",
+                    "min_gram": 2,
+                    "max_gram": 8,
+                    "preserve_original": "true"
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text",
+                "analyzer": "page_content_analyzer",
+                "search_analyzer": "search_analyzer"
+            }
+        }
+    }
+}

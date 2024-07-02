@@ -1,0 +1,6 @@
+requests
+beautifulsoup4
+elasticsearch
+pandas
+openpyxl
+python-dotenv
