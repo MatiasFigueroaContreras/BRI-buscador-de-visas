@@ -126,7 +126,7 @@ class VisaIndexer:
 
 def main():
     indexer = VisaIndexer(
-        index_name="visas", index_config_file="index_config.json", excel_file="Visas2.xlsx")
+        index_name="visas", index_config_file="index_config.json", excel_file="Visas.xlsx")
     indexer.index_documents()
 
 
