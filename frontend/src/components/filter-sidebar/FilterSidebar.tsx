@@ -1,7 +1,40 @@
+"use client"
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import MultipleSelect from "../multiple-select/MultipleSelect"
 import FilterOption from "./FilterOption"
+import { countries } from "countries-list"
 
-export default function FiltersBar() {
+export default function FiltersBar({
+  destinationCountries,
+  categories,
+  processingTimes,
+}: {
+  destinationCountries: any[]
+  categories: any[]
+  processingTimes: any[]
+}) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const changeUrl = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set(key, value)
+    params.delete("page")
+    router.push(`${pathname}?${params.toString()}`)
+  }
+
+  const changeUrlArray = (key: string, values: string[]) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete(key)
+    values.forEach((value) => {
+      params.append(key, value)
+    })
+    params.delete("page")
+    router.push(`${pathname}?${params.toString()}`)
+  }
+
   return (
     <aside className="sticky top-0 left-0 flex flex-col basis-1/4 gap-5 z-10">
       <h2 className="text-xl font-semibold">Filtros</h2>
@@ -9,46 +42,60 @@ export default function FiltersBar() {
       <FilterOption placeholder="Pais de destino">
         <MultipleSelect
           placeholder="Pais de destino"
-          options={[
-            { value: "1", label: "Argentina" },
-            { value: "2", label: "Brasil" },
-            { value: "3", label: "Chile" },
-            { value: "4", label: "Colombia" },
-            { value: "5", label: "Ecuador" },
-            { value: "6", label: "Perú" },
-            { value: "7", label: "Uruguay" },
-            { value: "8", label: "Venezuela" },
-          ]}
+          options={destinationCountries}
+          onChange={(selectedOptions) => {
+            changeUrlArray(
+              "dest_country",
+              selectedOptions.map((option) => option.value.toString())
+            )
+          }}
+          defaultValue={
+            searchParams.has("dest_country")
+              ? destinationCountries.filter((country) =>
+                  searchParams.getAll("dest_country").includes(country.value)
+                )
+              : []
+          }
         />
       </FilterOption>
       <FilterOption placeholder="Categoria de visa">
         <MultipleSelect
           placeholder="Categoria de visa"
-          options={[
-            { value: "1", label: "H1B1" },
-            { value: "2", label: "B1" },
-            { value: "3", label: "C1" },
-            { value: "4", label: "B2" },
-            { value: "5", label: "F1" },
-            { value: "6", label: "M1" },
-            { value: "7", label: "G" },
-            { value: "8", label: "G1" },
-          ]}
+          options={categories}
+          onChange={(selectedOptions) => {
+            changeUrlArray(
+              "category",
+              selectedOptions.map((option) => option.value.toString())
+            )
+          }}
+          defaultValue={
+            searchParams.has("category")
+              ? categories.filter((category) =>
+                  searchParams.getAll("category").includes(category.value)
+                )
+              : []
+          }
         />
       </FilterOption>
       <FilterOption placeholder="Tiempo de tramitacion">
         <MultipleSelect
           placeholder="Tiempo de tramitacion"
-          options={[
-            { value: "1", label: "15 dias" },
-            { value: "2", label: "30 dias" },
-            { value: "3", label: "45 dias" },
-            { value: "4", label: "60 dias" },
-            { value: "5", label: "75 dias" },
-            { value: "6", label: "90 dias" },
-            { value: "7", label: "105 dias" },
-            { value: "8", label: "120 dias" },
-          ]}
+          options={processingTimes}
+          onChange={(selectedOptions) => {
+            changeUrlArray(
+              "processing_time",
+              selectedOptions.map((option) => option.value.toString())
+            )
+          }}
+          defaultValue={
+            searchParams.has("processing_time")
+              ? processingTimes.filter((processingTime) =>
+                  searchParams
+                    .getAll("processing_time")
+                    .includes(processingTime.value)
+                )
+              : []
+          }
         />
       </FilterOption>
     </aside>
