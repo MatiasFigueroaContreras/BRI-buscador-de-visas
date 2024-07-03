@@ -6,6 +6,7 @@ type VisaQuery = {
         min?: number;
         max?: number;
     };
+    capital_required?: number;
     visa_duration?: number;
     extension_possibility?: boolean;
     evisa_availability?: boolean;

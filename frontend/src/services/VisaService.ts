@@ -37,7 +37,7 @@ class VisaService {
             const data = hits.map((hit: any) => ({
                 ...hit._source,
                 highlight: hit.highlight ? hit.highlight.content : []
-            })); const total : any = response.hits.total;
+            })); const total: any = response.hits.total;
             return { total, data };
         }
         catch (error) {
@@ -75,12 +75,13 @@ class VisaService {
 
     async getFacets(query: VisaQuery) {
         try {
-            const mustQueries = this.setMustQuery(query);
             const aggregationQueries = {
                 destination_country: this.setMustQueryWithoutField(query, 'destination_country'),
                 categories: this.setMustQueryWithoutField(query, 'categories'),
                 processing_time: this.setMustQueryWithoutField(query, 'processing_time'),
+                processing_fee: this.setMustQueryWithoutField(query, 'processing_fee'),
             };
+
             const response = await esClient.search({
                 index: INDEX_NAME,
                 body: {
@@ -133,6 +134,25 @@ class VisaService {
                                     }
                                 }
                             }
+                        },
+                        processing_fee: {
+                            filter: {
+                                bool: {
+                                    must: aggregationQueries.processing_fee
+                                }
+                            },
+                            aggs: {
+                                min_price: {
+                                    min: {
+                                        field: 'processing_fee'
+                                    }
+                                },
+                                max_price: {
+                                    max: {
+                                        field: 'processing_fee'
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -143,7 +163,11 @@ class VisaService {
             return {
                 dest_country: aggs?.dest_country.terms.buckets,
                 category: aggs?.category.terms.buckets,
-                processing_time: aggs?.processing_time.terms.buckets
+                processing_time: aggs?.processing_time.terms.buckets,
+                processing_fee: {
+                    min: aggs?.processing_fee.min_price.value,
+                    max: aggs?.processing_fee.max_price.value
+                }
             };
         }
         catch (error) {
@@ -156,7 +180,7 @@ class VisaService {
         // Agregar consultas para coincidencias exactas
         if (query.extension_possibility != undefined) mustQueries.push({ term: { "extension_possibility": query.extension_possibility } });
         if (query.evisa_availability != undefined) mustQueries.push({ term: { "evisa_availability": query.evisa_availability } });
-        
+
         // Agregar consultas para campos de opciones múltiples
         if (query.destination_country && query.destination_country.length > 0) {
             mustQueries.push({ terms: { "destination_country.keyword": query.destination_country } });
@@ -184,9 +208,19 @@ class VisaService {
             mustQueries.push({ range: { visa_duration: { gte: query.visa_duration } } });
         }
 
+        if (query.capital_required !== undefined) {
+            mustQueries.push({ range: { capital_required: { lte: query.capital_required } } });
+        }
+
         // Agregar consulta de texto completo para content
         if (query.search) {
-            mustQueries.push({ match: { content: query.search } });
+            mustQueries.push({
+                multi_match:
+                {
+                    query: query.search,
+                    fields: ["content", "title", "destination_country", "categories", "type_of_visa", "country_code"]
+                }
+            });
         }
 
         return mustQueries;
@@ -196,7 +230,7 @@ class VisaService {
         const mustQueries: any[] = this.setMustQuery(query);
 
         return mustQueries.filter(q => {
-            if (q.terms && q.terms[field + ".keyword"]) {
+            if ((q.terms && q.terms[field + ".keyword"]) || (q.range && q.range[field])) {
                 return false;
             }
             return true;
@@ -229,6 +263,10 @@ class VisaService {
             };
         }
 
+        if (params.available_capital !== undefined && typeof params.available_capital === 'number') {
+            query.capital_required = params.available_capital;
+        }
+
         if (params.visa_duration !== undefined) {
             query.visa_duration = params.visa_duration;
         }
@@ -254,7 +292,7 @@ class VisaService {
         }
 
         return query;
-    }    
+    }
 }
 
 const visaService = new VisaService();

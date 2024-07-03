@@ -1,21 +1,18 @@
-'use client'
 import ReactSlider from 'react-slider';
-import { useState, useEffect } from 'react';
 import styles from './RangeSliderStyles.module.css'
 
 interface RangeSliderProps {
+  defaultMin: number;
+  defaultMax: number;
   min: number;
   max: number;
   onRangeChange: (values: [number, number]) => void;
 }
 
-const RangeSlider: React.FC<RangeSliderProps> = ({ min, max, onRangeChange }) => {
-  const [range, setRange] = useState<[number, number]>([min, max]);
-
-  const handleChange = (value: number | number[]) =>{
-    setRange(value as [number, number]);
-    onRangeChange(value as [number, number]);
-  };
+const RangeSlider = ({ defaultMin, defaultMax, min, max, onRangeChange } : RangeSliderProps) => {
+  const handleChange = (value: [number, number]) => {
+    onRangeChange(value)
+  }
 
   const createTicks = () => {
     const ticks = [];
@@ -25,33 +22,34 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ min, max, onRangeChange }) =>
   };
 
   return (
-    <div>
+    <>
       <ReactSlider
         className={styles.horizontalSlider}
         thumbClassName={styles.exampleThumb}
         trackClassName={styles.exampleTrack}
-        defaultValue={[min,max]}
-        ariaLabel={['Lower thumb', 'Upper thumb']}
+        defaultValue={[defaultMin >= min ? defaultMin : min, defaultMax <= max ? defaultMax : max]}
         renderThumb={(props, state: { valueNow: number }) => (
-          <div {...props} data-value={state.valueNow}>{state.valueNow}</div>
+          <div {...props} data-value={state.valueNow}>
+            {state.valueNow}
+          </div>
         )}
         pearling
-        minDistance={8}
+        minDistance={1}
         min={min}
         max={max}
         onChange={handleChange}
         renderTrack={(props, state) => (
           <div
             {...props}
-            className={`${props.className} ${state.index === 1 ? styles.exampleTrackActive : ''}`}
+            className={`${props.className} ${
+              state.index === 1 ? styles.exampleTrackActive : ""
+            }`}
           />
         )}
       />
-      <div className={styles.ticks}>
-        {createTicks()}
-      </div>
-    </div>
-  );
+      <div className={styles.ticks}>{createTicks()}</div>
+    </>
+  )
 };
 
 export default RangeSlider;

@@ -8,16 +8,17 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
     const highlight = visa.highlight.join(", ")
     const evisa = visa.evisa_availability ? "eVisa available" : "eVisa not available"
     const extension = visa.extension_possibility ? "Extension possible" : "No extension"
+    const capitalRequired = visa.capital_required == 0 ? "No capital required" : `${visa.capital_required} USD required`
     const res = {
-      __html: `<span>${evisa}, ${extension} ${
+      __html: `${evisa}, ${extension}, ${capitalRequired}${
         highlight.length == 0 ? "" : ", " + highlight
-      }</span>`,
+      }`,
     } 
     return res;
   }
 
   const getXAxis = () => {
-    return visa.type_of_visa.length * 1.2 + 13
+    return visa.type_of_visa.length  * 1.5 + 10
   }
 
   const needDurationText = (str : string) => {

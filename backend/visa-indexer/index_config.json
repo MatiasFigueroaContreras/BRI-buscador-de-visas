@@ -44,6 +44,12 @@
             },
             "evisa_available": {
                 "type": "boolean"
+            },
+            "processing_fee": {
+                "type": "integer"
+            },
+            "capital_required": {
+                "type": "integer"
             }
         }
     }

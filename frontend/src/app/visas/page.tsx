@@ -48,13 +48,14 @@ export default async function VisasPage({
         destinationCountries={destinationCountries}
         categories={categories}
         processingTimes={processingTimes}
+        processingFee={facets.processing_fee}
       />
       <section className="basis-3/4 grid gap-6 justify-center">
         {totalItems != 0 ? (
           <>
             <div className="flex flex-col items-center md:items-end gap-1 w-full">
               <p className="justify-self-end hidden md:block">
-                {range.start}-{range.end} of {totalItems} visas
+                {range.start + 1}-{range.end} of {totalItems} visas
               </p>
               <hr className="h-0.5 border-none bg-primary-300 w-full mb-2" />
               <Pagination totalItems={totalItems} pageSize={pageSize} />

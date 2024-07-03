@@ -1,55 +1,43 @@
-"use client";
+import "./Checkbox.css"
 
-import { useRef, useState, useEffect } from "react";
-import './Checkbox.css';
-
-export default function BooleanOption({
+export default function CheckBoxOption({
   label,
   value,
   onChange,
 }: {
-  label: string;
-  value: boolean;
-  onChange: (value: string) => void;
+  label: string
+  value: boolean | undefined
+  onChange: (value: string) => void
 }) {
-  const [checked, setChecked] = useState(value);
-  const [indeterminate, setIndeterminate] = useState(true);
-  const checkboxRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (checked: boolean) => {
-    if (checked === true && indeterminate === false) {
-      setChecked(false);
-      setIndeterminate(true);
-      onChange("");
-    } else {
-      if (checked) {
-        setChecked(true);
-        setIndeterminate(false);
-        onChange("true");
-      } else {
-        setChecked(false);
-        setIndeterminate(false);
-        onChange("false");
-      }
+  const handleChange = (value: boolean | undefined) => {
+    if (value == undefined) {
+      onChange("true")
+      return
     }
-  };
 
-  useEffect(() => {
-    if (checkboxRef.current) {
-      checkboxRef.current.indeterminate = indeterminate;
+    if (value) {
+      onChange("false")
+      return
     }
-  }, [indeterminate]);
+    else {
+      onChange("")
+      return
+    }
+  }
 
   return (
     <div className="flex items-center gap-2">
       <input
+        id={label}
         type="checkbox"
-        ref={checkboxRef}
-        className={`h-5 w-5 ${indeterminate ? 'indeterminate' : ''}`}
-        checked={checked}
-        onChange={(e) => handleChange(e.target.checked)}
+        className={`h-6 w-6 rounded-sm ${value == undefined ? "indeterminate" : ""}`}
+        checked={value}
+        onChange={(e) => handleChange(value)}
       />
-      <label>{label}</label>
+      <label className="cursor-pointer select-none" htmlFor={label}>
+        {label}
+      </label>
     </div>
-  );
+  )
 }

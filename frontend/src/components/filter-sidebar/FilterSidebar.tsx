@@ -1,31 +1,27 @@
 "use client"
-import { use, useState, useEffect } from "react"
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import MultipleSelect from "../multiple-select/MultipleSelect"
 import CheckBoxOption from "../checkbox-option/CheckboxOption"
 import FilterOption from "./FilterOption"
 import useDebounce from "@/hooks/useDebounce"
-import { countries } from "countries-list"
 import RangeSlider from "../range-slider/Rangeslider"
 import AvailableCapital from "../search-filter/AvailableCapital"
-import { initialize } from "next/dist/server/lib/render-server"
-import visaService from "@/services/VisaService"
-
 
 export default function FiltersBar({
   destinationCountries,
   categories,
   processingTimes,
-  
+  processingFee,
 }: {
   destinationCountries: any[]
   categories: any[]
   processingTimes: any[]
+  processingFee: { min: number; max: number }
 }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  
 
   const changeUrl = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -43,37 +39,35 @@ export default function FiltersBar({
     params.delete("page")
     router.push(`${pathname}?${params.toString()}`)
   }
-  
-  const [capital, setCapital] = useState<number | undefined>(undefined);
-  const [period, setPeriod] = useState("day");
-  const [duration, setDuration] = useState<number | undefined>(undefined);
-  
+
   const changeCapitalUrl = useDebounce((value: string) => {
-    setCapital(Number(value));
-    changeUrl("available_capital", Number(value).toString())
-  }, 300);
-
-  const handlePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPeriod(event.target.value);
-    changeUrl("visa_duration_unit", period)
-  };
-
-  const handleDurationChange = useDebounce((value: string) => {
-    setDuration(Number(value));
-    changeUrl("visa_duration", Number(value).toString())
-  }, 300);
-
-  const handleRangeChange = useDebounce((values:[number, number]) =>{
-    if(values[0] !== 0 || values[1] !== 2634){
-      const params = new URLSearchParams(searchParams.toString())
-      params.set("processing_fee_min", values[0].toString());
-      params.set("processing_fee_max", values[1].toString());
-      router.push(`${pathname}?${params.toString()}`)
-    }
+    changeUrl("available_capital", value)
   }, 300)
 
+  const handleDurationChange = useDebounce((value: string) => {
+    changeUrl("visa_duration", Number(value).toString())
+  }, 300)
+
+  const handleRangeChange = (values: [number, number]) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set("processing_fee_min", values[0].toString())
+    params.set("processing_fee_max", values[1].toString())
+    router.push(`${pathname}?${params.toString()}`)
+  }
+
+  const checkboxValue= (key: string) => {
+    if(!searchParams.has(key)){
+      return undefined
+    }
+    if(searchParams.get(key) == "true" || searchParams.get(key) == "false"){
+      return searchParams.get(key) == "true"
+    }
+
+    return undefined
+  }
+
   return (
-    <aside className="sticky top-0 left-0 flex flex-col basis-1/4 gap-5 z-10">
+    <aside className="sticky top-0 left-0 flex flex-col basis-1/4 gap-6 z-10">
       <h2 className="text-xl font-semibold">Filters</h2>
       <hr className="-mt-3" />
       <FilterOption placeholder="Destination country">
@@ -135,46 +129,65 @@ export default function FiltersBar({
           }
         />
       </FilterOption>
-      <FilterOption placeholder="Processing Fee (USD)">
+      <FilterOption placeholder="Processing fee (USD)">
         <RangeSlider
-          min={0}
-          max={2634}
+          defaultMin={
+            searchParams.has("processing_fee_min") &&
+            Number(searchParams.get("processing_fee_min")) >= processingFee.min
+              ? Number(searchParams.get("processing_fee_min"))
+              : processingFee.min
+          }
+          defaultMax={
+            searchParams.has("processing_fee_max") &&
+            Number(searchParams.get("processing_fee_max")) <= processingFee.max
+              ? Number(searchParams.get("processing_fee_max"))
+              : processingFee.max
+          }
+          min={processingFee.min}
+          max={processingFee.max}
           onRangeChange={handleRangeChange}
         />
       </FilterOption>
-      <FilterOption placeholder="Disponibilidad Capital">
+      <FilterOption placeholder="Your available capital">
         <AvailableCapital
           id="capitalInput"
           placeholder="Enter capital"
-          type="Capital"
-          value={capital !== undefined ? capital.toString() : ""}
+          optionsType="Capital"
+          defaultValue={
+            searchParams.has("available_capital")
+              ? Number(searchParams.get("available_capital"))
+              : undefined
+          }
           onChange={(e) => changeCapitalUrl(e.target.value)}
         />
       </FilterOption>
-      <FilterOption placeholder="Duracion">
+      <FilterOption placeholder="Visa duration">
         <AvailableCapital
           id="periodInput"
+          optionsType="period"
           placeholder="Enter duration"
-          type="period"
-          value={duration !== undefined ? duration.toString() : ""}
-          periodValue={period}
+          defaultValue={
+            searchParams.has("visa_duration")
+              ? Number(searchParams.get("visa_duration"))
+              : undefined
+          }
+          periodValue={searchParams.get("visa_duration_unit") ?? "day"}
           onChange={(e) => handleDurationChange(e.target.value)}
-          onPeriodChange={handlePeriodChange}
+          onPeriodChange={(e) =>
+            changeUrl("visa_duration_unit", e.target.value)
+          }
         />
       </FilterOption>
-      
       <CheckBoxOption
         label="Possibility of extension"
-        value={searchParams.has("extension")}
+        value={checkboxValue("extension")}
         onChange={(value) => changeUrl("extension", value.toString())}
-      >
-      </CheckBoxOption>
+      ></CheckBoxOption>
       <CheckBoxOption
         label="Availability E-Visa"
-        value={searchParams.has("evisa")}
+        value={checkboxValue("evisa")}
         onChange={(value) => changeUrl("evisa", value.toString())}
-      >
-      </CheckBoxOption>
+      ></CheckBoxOption>
     </aside>
   )
 }
