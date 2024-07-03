@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import MultipleSelect from "../multiple-select/MultipleSelect"
-import BooleanOption from "../boolean-option/BooleanOption"
+import CheckBoxOption from "../checkbox-option/CheckboxOption"
 import FilterOption from "./FilterOption"
 import { countries } from "countries-list"
 
@@ -99,22 +99,18 @@ export default function FiltersBar({
           }
         />
       </FilterOption>
-      <FilterOption placeholder="Possibility of extension">
-        <BooleanOption
-          label="Possibility of extension"
-          value={searchParams.has("extension")}
-          onChange={(value) => changeUrl("extension", value.toString())}
-        >
-        </BooleanOption>
-        </FilterOption>
-        <FilterOption placeholder="Availability E-Visa">
-        <BooleanOption
-          label="Availability E-Visa"
-          value={searchParams.has("evisa")}
-          onChange={(value) => changeUrl("evisa", value.toString())}
-        >
-        </BooleanOption>
-        </FilterOption>
+      <CheckBoxOption
+        label="Possibility of extension"
+        value={searchParams.has("extension")}
+        onChange={(value) => changeUrl("extension", value.toString())}
+      >
+      </CheckBoxOption>
+      <CheckBoxOption
+        label="Availability E-Visa"
+        value={searchParams.has("evisa")}
+        onChange={(value) => changeUrl("evisa", value.toString())}
+      >
+      </CheckBoxOption>
     </aside>
   )
 }
