@@ -19,7 +19,7 @@ class VisaIndexer:
     def setup_elasticsearch(self):
         """
         Configura la conexión con Elasticsearch y crea un índice a partir de un archivo de configuración.
-        
+
         Returns:
         Elasticsearch: El cliente de Elasticsearch configurado.
         """
@@ -41,42 +41,52 @@ class VisaIndexer:
     def fetch_and_parse_url(self, url):
         """
         Descarga el contenido de una URL y lo parsea, eliminando elementos innecesarios.
-        
+
         Args:
         url (str): La URL a descargar y parsear.
-        
+
         Returns:
         BeautifulSoup: El contenido parseado.
         """
 
         # Configurar los headers para simular una petición de postman
-        headers = {
+
+        headers_postman = {
             "User-Agent": "PostmanRuntime/7.39.0",
             "Accept": "*/*",
             "Accept-Language": "en-US,en;q=0.5",
             "Connection": "keep-alive"
         }
 
-        try:
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.content, 'html.parser')
-            for script in soup(['script', 'style']):
-                script.decompose()
-            for element in soup(['header', 'footer', 'nav']):
-                element.decompose()
-            return soup
-        except requests.RequestException as e:
-            print(f"Error fetching URL {url}: {e}")
-            return None
+        attempts = [
+            {"headers": headers_postman, "verify": True},
+            {"headers": headers_postman, "verify": False},
+        ]
+        errors = []
+        for attempt in attempts:
+            try:
+                response = requests.get(
+                    url, headers=attempt["headers"], verify=attempt["verify"])
+                response.raise_for_status()
+                soup = BeautifulSoup(response.content, 'html.parser')
+                for script in soup(['script', 'style']):
+                    script.decompose()
+                for element in soup(['header', 'footer', 'nav']):
+                    element.decompose()
+                return soup
+            except requests.RequestException as e:
+                errors.append(e)
+                continue
+        print(f"Error fetching URL {url}: {errors}")
+        return None
 
     def row_to_json(self, row):
         """
         Convierte una fila de un DataFrame a un documento JSON para Elasticsearch.
-        
+
         Args:
         row (pd.Series): La fila del DataFrame a convertir.
-        
+
         Returns:
         dict: El documento JSON.
         """

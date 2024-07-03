@@ -154,9 +154,9 @@ class VisaService {
     setMustQuery(query: VisaQuery): any[] {
         const mustQueries = [];
         // Agregar consultas para coincidencias exactas
-        if (query.extension_possibility) mustQueries.push({ term: { "extension_possibility.keyword": query.extension_possibility } });
-        if (query.evisa_availability) mustQueries.push({ term: { "evisa_availability.keyword": query.evisa_availability } });
-
+        if (query.extension_possibility != undefined) mustQueries.push({ term: { "extension_possibility": query.extension_possibility } });
+        if (query.evisa_availability != undefined) mustQueries.push({ term: { "evisa_availability": query.evisa_availability } });
+        
         // Agregar consultas para campos de opciones múltiples
         if (query.destination_country && query.destination_country.length > 0) {
             mustQueries.push({ terms: { "destination_country.keyword": query.destination_country } });
@@ -233,12 +233,12 @@ class VisaService {
             query.visa_duration = params.visa_duration;
         }
 
-        if (params.extension !== undefined) {
-            query.extension_possibility = params.extension ? 'TRUE' : 'FALSE';
+        if (params.extension?.toLocaleLowerCase() === 'true' || params.extension?.toLocaleLowerCase() === 'false') {
+            query.extension_possibility = params.extension.toLowerCase() === 'true' ? true : false;
         }
 
-        if (params.evisa !== undefined) {
-            query.evisa_availability = params.evisa ? 'TRUE' : 'FALSE';
+        if (params.evisa?.toLocaleLowerCase() === 'true' || params.evisa?.toLocaleLowerCase() === 'false') {
+            query.evisa_availability = params.evisa.toLowerCase() === 'true' ? true : false;
         }
 
         if (params.visa_type) {

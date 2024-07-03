@@ -38,6 +38,12 @@
                 "type": "text",
                 "analyzer": "page_content_analyzer",
                 "search_analyzer": "search_analyzer"
+            },
+            "extension_possibility": {
+                "type": "boolean"
+            },
+            "evisa_available": {
+                "type": "boolean"
             }
         }
     }

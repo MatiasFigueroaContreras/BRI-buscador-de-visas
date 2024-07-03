@@ -7,8 +7,8 @@ type VisaQuery = {
         max?: number;
     };
     visa_duration?: number;
-    extension_possibility?: string;
-    evisa_availability?: string;
+    extension_possibility?: boolean;
+    evisa_availability?: boolean;
     type_of_visa?: string[];
     search?: string;
     page?: number;

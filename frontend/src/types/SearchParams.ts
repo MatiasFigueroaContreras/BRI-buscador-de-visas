@@ -11,8 +11,8 @@ type SearchParams = {
     available_capital_unit?: string;
     visa_duration?: number;
     visa_duration_unit?: string;
-    extension?: boolean;
-    evisa?: boolean;
+    extension?: 'TRUE' | 'FALSE';
+    evisa?: 'TRUE' | 'FALSE';
     page?: number;
     page_size?: number;
 }
