@@ -47,7 +47,7 @@ export default function VisaSearchBar({
     <div className="flex h-10 w-full justify-center gap-2 !text-sm">
       <Select
         defaultValue={searchParams.get("origin_country") || undefined}
-        placeholder="Pais de origen"
+        placeholder="Country of origin"
         className="!w-48 !font-medium"
         onChange={(event) => {
           changeUrl("origin_country", event.target.value)
@@ -61,7 +61,7 @@ export default function VisaSearchBar({
       </Select>
       <MultipleSelect
         className="!min-h-10 !w-60 font-medium"
-        placeholder="Tipo de visa"
+        placeholder="Type of visa"
         options={visaTypes}
         onChange={(selectedOptions) => {
           changeUrlArray(
@@ -78,7 +78,7 @@ export default function VisaSearchBar({
         }
       />
       <SearchInput
-        placeholder="Tipos de visa, Requisitos, países..."
+        placeholder="Types of visa, requirements met, countries..."
         className="!h-10 !w-[30rem]"
         defaultValue={searchParams.get("search") || undefined}
         onChange={(event) => {
@@ -89,7 +89,7 @@ export default function VisaSearchBar({
         className="!w-28 bg-background !font-semibold !text-text-primary-dark shadow-none hover:bg-gray-200"
         onClick={() => handleOnSearch()}
       >
-        BUSCAR
+        SEARCH
       </Button>
     </div>
   )
