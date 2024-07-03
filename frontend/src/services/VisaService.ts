@@ -54,6 +54,7 @@ class VisaService {
                         type_of_visa: {
                             terms: {
                                 field: 'type_of_visa.keyword',
+                                size: 100000000
                             }
                         },
                     }
@@ -97,7 +98,8 @@ class VisaService {
                             aggs: {
                                 terms: {
                                     terms: {
-                                        field: 'destination_country.keyword'
+                                        field: 'destination_country.keyword',
+                                        size: 100000000
                                     }
                                 }
                             }
@@ -111,7 +113,8 @@ class VisaService {
                             aggs: {
                                 terms: {
                                     terms: {
-                                        field: 'categories.keyword'
+                                        field: 'categories.keyword',
+                                        size: 100000000
                                     }
                                 }
                             }
@@ -125,7 +128,8 @@ class VisaService {
                             aggs: {
                                 terms: {
                                     terms: {
-                                        field: 'processing_time.keyword'
+                                        field: 'processing_time.keyword',
+                                        size: 10000000
                                     }
                                 }
                             }
@@ -136,7 +140,6 @@ class VisaService {
             });
 
             const aggs: any = response.aggregations;
-            console.log(aggs)
             return {
                 dest_country: aggs?.dest_country.terms.buckets,
                 category: aggs?.category.terms.buckets,
