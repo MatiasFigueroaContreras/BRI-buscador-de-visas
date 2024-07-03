@@ -4,6 +4,28 @@ import Link from "next/link"
 import Visa from "@/types/Visa"
 
 export default function VisaSurrogate({visa} : {visa: Visa}) {
+  const formatKeywords = () => {
+    const highlight = visa.highlight.join(", ")
+    const evisa = visa.evisa_availability ? "eVisa available" : "eVisa not available"
+    const extension = visa.extension_possibility ? "Extension possible" : "No extension"
+    const res = {
+      __html: `<span>${evisa}, ${extension} ${
+        highlight.length == 0 ? "" : ", " + highlight
+      }</span>`,
+    } 
+    return res;
+  }
+
+  const getXAxis = () => {
+    return visa.type_of_visa.length * 1.2 + 13
+  }
+
+  const needDurationText = (str : string) => {
+    const containNumber = /\d/.test(str);
+    const endsWithDays = str.endsWith('days')
+    return containNumber && endsWithDays
+  }
+
   return (
     <Link href={visa.url}>
       <article
@@ -13,12 +35,12 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
       >
         <section className="flex justify-between px-4 py-2">
           <div className="grid text-center">
-            <h6 className="text-sm text-primary-500">Pasaporte</h6>
-            <h3 className="text-lg font-semibold">{visa.type_of_visa}</h3>
+            <h6 className="text-sm text-primary-500">Passport</h6>
+            <h3 className="text-lg font-semibold">{visa.type_of_visa} Visa</h3>
           </div>
           <div className="flex gap-1 font-medium items-start">
             <ScheduleIcon className="w-6" />
-            <span>{visa.visa_duration} de duración</span>
+            <span>{visa.visa_duration} {needDurationText(visa.visa_duration) ? "of duration" : ""}</span>
           </div>
         </section>
         <svg
@@ -29,7 +51,7 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
           xmlns="http://www.w3.org/2000/svg"
         >
           <line
-            x1="25"
+            x1={getXAxis()}
             y1="9"
             x2="0"
             y2="9"
@@ -37,9 +59,9 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
             strokeWidth="0.25"
           />
           <line
-            x1="30"
+            x1={getXAxis() + 5}
             y1="6"
-            x2="25"
+            x2={getXAxis()}
             y2="9"
             className="stroke-primary-300"
             strokeWidth="0.25"
@@ -47,7 +69,7 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
           <line
             x1="100"
             y1="6"
-            x2="30"
+            x2={getXAxis() + 5}
             y2="6"
             className="stroke-primary-300"
             strokeWidth="0.25"
@@ -60,23 +82,26 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
             </h3>
             <Image
               src={`icons/flags/${visa.country_code}.svg`}
-              width={60}
-              height={60}
+              width={75}
+              height={75}
               alt={`Country flag of ${visa.destination_country}`}
             />
-            <span className="text-base font-medium">Categorías: {visa.categories}</span>
+            <span className="text-base font-medium">
+              Category: {visa.categories}
+            </span>
           </div>
           <div className="basis-3/4 grid gap-2">
             <section>
               <h6 className="text-sm text-primary-500 font-medium">
-                Proceso obtención visa:
+                Visa obtaining process:
               </h6>
               <div className="flex ml-4 justify-between">
                 <span>
-                  Costo estimado: <b className="font-semibold">{visa.processing_fee}</b>
+                  Estimated cost:{" "}
+                  <b className="font-semibold">{visa.processing_fee} USD</b>
                 </span>
                 <span>
-                  Duración proceso:{" "}
+                  Process duration:{" "}
                   <b className="font-semibold">{visa.processing_time}</b>
                 </span>
               </div>
@@ -84,9 +109,17 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
             <hr className="border-primary-200 border-dashed" />
             <section>
               <h6 className="text-sm text-primary-500 font-medium">
-                Palabras clave:
+                Keywords:
               </h6>
-              <p className="ml-4 font-medium">{visa.highlight.join(", ")}</p>
+              <p
+                className="ml-4 font-medium overflow-hidden text-ellipsis"
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                }}
+                dangerouslySetInnerHTML={formatKeywords()}
+              />
             </section>
           </div>
         </section>
