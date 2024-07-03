@@ -5,8 +5,8 @@ import VisaResponse from "@/types/VisaResponse";
 import { countries } from "countries-list";
 
 const INDEX_NAME = "visas";
-
 class VisaService {
+
     async getAll(query: VisaQuery): Promise<VisaResponse> {
         try {
             const mustQueries = this.setMustQuery(query);
@@ -254,7 +254,7 @@ class VisaService {
         }
 
         return query;
-    }
+    }    
 }
 
 const visaService = new VisaService();
