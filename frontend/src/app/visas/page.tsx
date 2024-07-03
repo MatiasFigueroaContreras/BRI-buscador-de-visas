@@ -50,20 +50,26 @@ export default async function VisasPage({
         processingTimes={processingTimes}
       />
       <section className="basis-3/4 grid gap-6 justify-center">
-        <div className="flex flex-col items-center md:items-end gap-1 w-full">
-          <p className="justify-self-end hidden md:block">
-            {range.start}-{range.end} de {totalItems} componentes
-          </p>
-          <hr className="h-0.5 border-none bg-primary-300 w-full mb-2" />
-          <Pagination totalItems={totalItems} pageSize={pageSize} />
-        </div>
-        {visas.map((visa, index) => (
-          <VisaSurrogate key={index} visa={visa} />
-        ))}
-        <div className="flex flex-col items-center md:items-end gap-1 w-full">
-          <hr className="h-0.5 border-none w-full bg-primary-300 mb-2" />
-          <Pagination totalItems={totalItems} pageSize={pageSize} />
-        </div>
+        {totalItems != 0 ? (
+          <>
+            <div className="flex flex-col items-center md:items-end gap-1 w-full">
+              <p className="justify-self-end hidden md:block">
+                {range.start}-{range.end} of {totalItems} visas
+              </p>
+              <hr className="h-0.5 border-none bg-primary-300 w-full mb-2" />
+              <Pagination totalItems={totalItems} pageSize={pageSize} />
+            </div>
+            {visas.map((visa, index) => (
+              <VisaSurrogate key={index} visa={visa} />
+            ))}
+            <div className="flex flex-col items-center md:items-end gap-1 w-full">
+              <hr className="h-0.5 border-none w-full bg-primary-300 mb-2" />
+              <Pagination totalItems={totalItems} pageSize={pageSize} />
+            </div>{" "}
+          </>
+        ) : (
+          <h3>No visas found.</h3>
+        )}
       </section>
     </main>
   )
