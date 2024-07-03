@@ -37,11 +37,11 @@ export default function FiltersBar({
 
   return (
     <aside className="sticky top-0 left-0 flex flex-col basis-1/4 gap-5 z-10">
-      <h2 className="text-xl font-semibold">Filtros</h2>
+      <h2 className="text-xl font-semibold">Filters</h2>
       <hr className="-mt-3" />
-      <FilterOption placeholder="Pais de destino">
+      <FilterOption placeholder="Destination country">
         <MultipleSelect
-          placeholder="Pais de destino"
+          placeholder="Destination country"
           options={destinationCountries}
           onChange={(selectedOptions) => {
             changeUrlArray(
@@ -58,9 +58,9 @@ export default function FiltersBar({
           }
         />
       </FilterOption>
-      <FilterOption placeholder="Categoria de visa">
+      <FilterOption placeholder="Visa category">
         <MultipleSelect
-          placeholder="Categoria de visa"
+          placeholder="Visa category"
           options={categories}
           onChange={(selectedOptions) => {
             changeUrlArray(
@@ -77,9 +77,9 @@ export default function FiltersBar({
           }
         />
       </FilterOption>
-      <FilterOption placeholder="Tiempo de tramitacion">
+      <FilterOption placeholder="Processing time">
         <MultipleSelect
-          placeholder="Tiempo de tramitacion"
+          placeholder="Processing time"
           options={processingTimes}
           onChange={(selectedOptions) => {
             changeUrlArray(
