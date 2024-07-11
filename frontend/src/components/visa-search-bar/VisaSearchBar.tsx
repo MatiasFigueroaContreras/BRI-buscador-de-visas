@@ -2,10 +2,12 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import Button from "../button/Button"
-import MultipleSelect from "../multiple-select/MultipleSelect"
 import SearchInput from "../search-input/SearchInput"
 import Select from "../select/Select"
 import useDebounce from "@/hooks/useDebounce"
+import MultipleSelectNavbar from "../multiple-select-navbar/MultipleSelectNavbar"
+import SelectNavbar from "../select-navbar/SelectNavbar"
+import LocationIcon from "../icons/LocationIcon"
 
 export default function VisaSearchBar({
   visaTypes,
@@ -44,22 +46,27 @@ export default function VisaSearchBar({
   }, 300)
 
   return (
-    <div className="flex h-10 w-full justify-center gap-2 !text-sm">
-      <Select
-        defaultValue={searchParams.get("origin_country") || undefined}
+    <div className="flex h-10 w-full justify-center gap-2 !text-sm z-20">
+      <SelectNavbar
+        className="!w-56 !font-medium !min-h-10"
+        options={countries}
+        defaultValue={
+          searchParams.has("origin_country")
+            ? countries.find(
+                (country) =>
+                  country.value === searchParams.get("origin_country")
+              )
+            : undefined
+        }
         placeholder="Country of origin"
-        className="!w-48 !font-medium"
-        onChange={(event) => {
-          changeUrl("origin_country", event.target.value)
+        placeholderIcon={<LocationIcon className="w-6" />}
+        onChange={(selectedOption) => {
+          selectedOption
+            ? changeUrl("origin_country", selectedOption.value.toString())
+            : changeUrl("origin_country", "")
         }}
-      >
-        {countries.map((country, index) => (
-          <option key={index} value={country.value}>
-            {country.label}
-          </option>
-        ))}
-      </Select>
-      <MultipleSelect
+      />
+      <MultipleSelectNavbar
         className="!min-h-10 !w-60 font-medium"
         placeholder="Type of visa"
         options={visaTypes}
@@ -78,7 +85,7 @@ export default function VisaSearchBar({
         }
       />
       <SearchInput
-        placeholder="Types of visa, requirements met, countries..."
+        placeholder="Characteristics, requirements met, countries..."
         className="!h-10 !w-[30rem]"
         defaultValue={searchParams.get("search") || undefined}
         onChange={(event) => {

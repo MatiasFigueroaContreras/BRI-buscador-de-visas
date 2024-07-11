@@ -48,12 +48,12 @@ export default function FiltersBar({
     changeUrl("visa_duration", Number(value).toString())
   }, 300)
 
-  const handleRangeChange = (values: [number, number]) => {
+  const handleRangeChange = useDebounce((values: [number, number]) => {
     const params = new URLSearchParams(searchParams.toString())
     params.set("processing_fee_min", values[0].toString())
     params.set("processing_fee_max", values[1].toString())
     router.push(`${pathname}?${params.toString()}`)
-  }
+  }, 300)
 
   const checkboxValue= (key: string) => {
     if(!searchParams.has(key)){
@@ -67,7 +67,7 @@ export default function FiltersBar({
   }
 
   return (
-    <aside className="sticky top-0 left-0 flex flex-col basis-1/4 gap-6 z-10">
+    <aside className="sticky top-24 left-0 flex flex-col basis-1/4 gap-6 z-10 h-full">
       <h2 className="text-xl font-semibold">Filters</h2>
       <hr className="-mt-3" />
       <FilterOption placeholder="Destination country">
@@ -143,8 +143,8 @@ export default function FiltersBar({
               ? Number(searchParams.get("processing_fee_max"))
               : processingFee.max
           }
-          min={processingFee.min}
-          max={processingFee.max}
+          min={0}
+          max={2634}
           onRangeChange={handleRangeChange}
         />
       </FilterOption>

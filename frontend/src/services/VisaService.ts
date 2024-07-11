@@ -28,8 +28,11 @@ class VisaService {
                     size: size,
                     highlight: {
                         fields: {
-                            content: {} // Resaltar el campo content en los resultados
-                        }
+                            content: {}, // Resaltar el campo content en los resultados
+                        },
+                        tags_schema: 'styled',
+                        pre_tags: ['<b>'],
+                        post_tags: ['</b>']
                     }
                 }
             });
@@ -263,7 +266,7 @@ class VisaService {
             };
         }
 
-        if (params.available_capital !== undefined && typeof params.available_capital === 'number') {
+        if (params.available_capital !== undefined && !isNaN(parseInt(params.available_capital))) {
             query.capital_required = params.available_capital;
         }
 

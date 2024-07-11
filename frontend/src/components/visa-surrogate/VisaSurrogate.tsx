@@ -28,7 +28,7 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
   }
 
   return (
-    <Link href={visa.url}>
+    <Link href={visa.url} rel="noopener noreferrer" target="_blank">
       <article
         className="relative z-10 w-[40rem] bg-secondary-300 text-text-primary-dark 
                 rounded-lg border border-primary-300 shadow-md hover:border-primary-600 
@@ -41,7 +41,10 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
           </div>
           <div className="flex gap-1 font-medium items-start">
             <ScheduleIcon className="w-6" />
-            <span>{visa.visa_duration} {needDurationText(visa.visa_duration) ? "of duration" : ""}</span>
+            <span>
+              {visa.visa_duration}{" "}
+              {needDurationText(visa.visa_duration) ? "of duration" : ""}
+            </span>
           </div>
         </section>
         <svg
@@ -110,7 +113,7 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
             <hr className="border-primary-200 border-dashed" />
             <section>
               <h6 className="text-sm text-primary-500 font-medium">
-                Keywords:
+                Characteristics:
               </h6>
               <p
                 className="ml-4 font-medium overflow-hidden text-ellipsis"
