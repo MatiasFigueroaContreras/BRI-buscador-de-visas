@@ -27,6 +27,22 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
     return containNumber && endsWithDays
   }
 
+  const getDurationText = () => {
+    if(visa.visa_duration == 0) {
+      return visa.visa_duration_text
+    }
+
+    if(visa.visa_duration % 30 == 0) {
+      return `${visa.visa_duration / 30} months`
+    }
+
+    if(visa.visa_duration % 365 == 0) {
+      return `${visa.visa_duration / 365} years`
+    }
+
+    return `${visa.visa_duration} days`
+  }
+
   return (
     <Link href={visa.url} rel="noopener noreferrer" target="_blank">
       <article
@@ -41,11 +57,7 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
           </div>
           <div className="flex gap-1 font-medium items-start">
             <ScheduleIcon className="w-6" />
-            <span>
-              {visa.visa_duration + " days"}{" "}
-            
-              
-            </span>
+            <span>{getDurationText()}</span>
           </div>
         </section>
         <svg

@@ -53,6 +53,9 @@
             },
             "visa_duration": {
                 "type": "integer"
+            },
+            "visa_duration_text": {
+                "type": "text"
             }
         }
     }

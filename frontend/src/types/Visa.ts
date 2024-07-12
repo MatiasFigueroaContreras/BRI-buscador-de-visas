@@ -5,7 +5,8 @@ type Visa = {
     categories: string;
     processing_time: string;
     processing_fee: number;
-    visa_duration: string;
+    visa_duration: number;
+    visa_duration_text: string;
     capital_required: number;
     extension_possibility: string;
     evisa_availability: string;

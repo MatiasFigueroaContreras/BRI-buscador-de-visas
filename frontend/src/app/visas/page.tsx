@@ -50,7 +50,7 @@ export default async function VisasPage({
         processingTimes={processingTimes}
         processingFee={facets.processing_fee}
       />
-      <section className="basis-3/4 grid gap-6 justify-center">
+      <section className="basis-3/4 grid gap-6 justify-center min-h-full">
         {totalItems != 0 ? (
           <>
             <div className="flex flex-col items-center md:items-end gap-1 w-full">
@@ -63,7 +63,7 @@ export default async function VisasPage({
             {visas.map((visa, index) => (
               <VisaSurrogate key={index} visa={visa} />
             ))}
-            <div className="flex flex-col items-center md:items-end gap-1 w-full">
+            <div className="flex flex-col items-center md:items-end gap-1 w-full justify-end">
               <hr className="h-0.5 border-none w-full bg-primary-300 mb-2" />
               <Pagination totalItems={totalItems} pageSize={pageSize} />
             </div>{" "}
