@@ -3,7 +3,6 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import Button from "../button/Button"
 import SearchInput from "../search-input/SearchInput"
-import Select from "../select/Select"
 import useDebounce from "@/hooks/useDebounce"
 import MultipleSelectNavbar from "../multiple-select-navbar/MultipleSelectNavbar"
 import SelectNavbar from "../select-navbar/SelectNavbar"
