@@ -5,6 +5,7 @@ import VisaResponse from "@/types/VisaResponse";
 import { countries } from "countries-list";
 
 const INDEX_NAME = "visas";
+
 class VisaService {
 
     async getAll(query: VisaQuery): Promise<VisaResponse> {
@@ -40,7 +41,7 @@ class VisaService {
             const data = hits.map((hit: any) => ({
                 ...hit._source,
                 highlight: hit.highlight ? hit.highlight.content : []
-            })); 
+            }));
             const total: any = response.hits.total;
             return { total, data };
         }
@@ -282,7 +283,9 @@ class VisaService {
         }
 
         if (params.visa_duration !== undefined) {
-            query.visa_duration = params.visa_duration;
+            const duration = parseInt(params.visa_duration);
+            const unit = params.visa_duration_unit || "day";
+            query.visa_duration = this.convertToDays(duration, unit);
         }
 
         if (params.extension?.toLocaleLowerCase() === 'true' || params.extension?.toLocaleLowerCase() === 'false') {
@@ -306,6 +309,17 @@ class VisaService {
         }
 
         return query;
+    }
+
+    convertToDays(value: number, unit: string): number {
+        switch (unit) {
+            case "month":
+                return value * 30;
+            case "year":
+                return value * 365;
+            default:
+                return value;
+        }
     }
 }
 
