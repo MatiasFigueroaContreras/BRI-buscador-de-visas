@@ -11,12 +11,12 @@ const spanishSpeakingCountriesVisasDescription = 'Perfect for individuals lookin
 export default function FastSearch() {
   return (
     <section className="flex flex-wrap gap-8 justify-center mt-8 !font-semibold">
-      <FastSearchBox title="Work and Skills Visas" description={workAndSkillsDescription} type="work" link="#" />
-      <FastSearchBox title="Study Visas" description={studyVisasDescription} type="study" link="#" />
-      <FastSearchBox title="Family Visas" description={familyVisasDescription} type="family" link="#" />
-      <FastSearchBox title="Working Holiday Visas" description={workingHolidayVisasDescription} type="workingHoliday" link="#" />
-      <FastSearchBox title="Asia Visas" description={asiaVisasDescription} type="asia" link="#" />
-      <FastSearchBox title="Spanish-speaking Countries Visas" description={spanishSpeakingCountriesVisasDescription} type="spanishSpeaking" link="#" />
+      <FastSearchBox title="Work and Skills Visas" description={workAndSkillsDescription} type="work" link="work" />
+      <FastSearchBox title="Study Visas" description={studyVisasDescription} type="study" link="study" />
+      <FastSearchBox title="Family Visas" description={familyVisasDescription} type="family" link="family" />
+      <FastSearchBox title="Working Holiday Visas" description={workingHolidayVisasDescription} type="workingHoliday" link="Working+Holiday" />
+      <FastSearchBox title="Asia Visas" description={asiaVisasDescription} type="asia" link="" />
+      <FastSearchBox title="Spanish-speaking Countries Visas" description={spanishSpeakingCountriesVisasDescription} type="spanishSpeaking" link="Spanish+Speaking" />
     </section>
   );
 }

@@ -1,20 +1,20 @@
 import React from 'react';
 import { WorkIcon, StudyIcon, FamilyIcon, WorkingHolidayIcon, AsiaIcon, SpanishSpeakingIcon } from '../icons/PeopleIcons';
 
-export default function VisaIcon({ type }: { type: string }, ...props: any[]) {
+export default function FastSearchIcons({ type }: { type: string }) {
   switch (type) {
     case 'work':
-      return <WorkIcon {...props} />;
+      return <WorkIcon/>;
     case 'study':
-      return <StudyIcon {...props} />;
+      return <StudyIcon/>;
     case 'family':
-      return <FamilyIcon {...props} />;
+      return <FamilyIcon/>;
     case 'workingHoliday':
-      return <WorkingHolidayIcon {...props} />;
+      return <WorkingHolidayIcon/>;
     case 'asia':
-      return <AsiaIcon {...props} />;
+      return <AsiaIcon/>;
     case 'spanishSpeaking':
-      return <SpanishSpeakingIcon {...props} />;
+      return <SpanishSpeakingIcon/>;
     default:
       return null;
   }

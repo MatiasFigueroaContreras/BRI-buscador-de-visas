@@ -26,7 +26,7 @@ export default async function Home() {
           Everything you need to know about travel visas
         </h4>
         <VisaSearchBar countries={countries} visaTypes={visaTypes} />
-      <SearchAllButton />
+        <SearchAllButton />
       </section>
       <FastSearch />
     </main>

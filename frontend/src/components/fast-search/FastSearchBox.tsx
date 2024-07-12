@@ -1,7 +1,19 @@
+"use client"
+
 import React from 'react';
 import FastSearchIcons from './FastSearchIcons';
+import ArrowRightIcon from '../icons/ArrowRightIcon';
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-export default function FastSearchBox({ title = 'Title', description = 'Description', type ='', link = '#' }) {
+
+export default function FastSearchBox({ title = 'Title', description = 'Description', type ='', link = '' }) {
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+  
+    const handleOnSearch = (link: string) => {
+        router.push(`/visas/?visa_type=${link}`)
+      }
     return (
         <div className="bg-white rounded-lg shadow-md p-4 border border-black" style={{ height: '230px', width: '500px', display: 'flex', flexDirection: 'column' }}>
             <div>
@@ -16,8 +28,11 @@ export default function FastSearchBox({ title = 'Title', description = 'Descript
                 </div>
             </div>
             <div className="mt-auto flex justify-end">
-                <a href={link} className="bg-primary-500 text-white rounded-md p-2 hover:bg-primary-600 focus:outline-none">
-                    Learn more
+                <a 
+                className="bg-secundary-500 text-white rounded-md p-2 hover:bg-secundary-600 focus:outline-none"
+                onClick={() => handleOnSearch(link)}
+                >
+                    <ArrowRightIcon className="h-6 w-6" />
                 </a>
             </div>
         </div>
