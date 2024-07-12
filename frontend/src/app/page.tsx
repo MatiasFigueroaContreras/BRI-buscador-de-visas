@@ -1,20 +1,22 @@
 import VisaSearchBar from "@/components/visa-search-bar/VisaSearchBar";
 import visaService from "@/services/VisaService";
+import FastSearch from "@/components/fast-search/FastSearch";
+import SearchAllButton from "@/components/search-all-button/SearchAllButton";
 
 export default async function Home() {
-    const searchOptions = await visaService.getSearchOptions()
-    const visaTypes = searchOptions.type_of_visa.map(
-      (type: { key: string; doc_count: number }) => ({
-        label: type.key,
-        value: type.key,
-      })
-    )
-    const countries = searchOptions.destination_country.map(
-      (country: string) => ({
-        label: country,
-        value: country,
-      })
-    )
+  const searchOptions = await visaService.getSearchOptions()
+  const visaTypes = searchOptions.type_of_visa.map(
+    (type: { key: string; doc_count: number }) => ({
+      label: type.key,
+      value: type.key,
+    })
+  )
+  const countries = searchOptions.destination_country.map(
+    (country: string) => ({
+      label: country,
+      value: country,
+    })
+  )
 
   return (
     <main className="flex min-h-screen w-full flex-col">
@@ -24,7 +26,9 @@ export default async function Home() {
           Everything you need to know about travel visas
         </h4>
         <VisaSearchBar countries={countries} visaTypes={visaTypes} />
+      <SearchAllButton />
       </section>
+      <FastSearch />
     </main>
   )
 }
