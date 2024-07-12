@@ -40,7 +40,8 @@ class VisaService {
             const data = hits.map((hit: any) => ({
                 ...hit._source,
                 highlight: hit.highlight ? hit.highlight.content : []
-            })); const total: any = response.hits.total;
+            })); 
+            const total: any = response.hits.total;
             return { total, data };
         }
         catch (error) {
@@ -89,8 +90,7 @@ class VisaService {
                 index: INDEX_NAME,
                 body: {
                     query: {
-                        bool: {
-                        }
+                        bool: {}
                     },
                     aggs: {
                         dest_country: {
@@ -229,6 +229,18 @@ class VisaService {
         return mustQueries;
     }
 
+    setMustNotQuery(): any[] {
+        const mustNotQueries = [];
+        
+        // Ignorar campos que empiezan con "duration" o "varies"
+        mustNotQueries.push({ wildcard: { visa_duration: "duration*" } });
+        mustNotQueries.push({ wildcard: { visa_duration: "varies*" } });
+        mustNotQueries.push({ term: { visa_duration: "depende" } });
+        mustNotQueries.push({ term: { visa_duration: "-" } });
+
+        return mustNotQueries;
+    }
+
     setMustQueryWithoutField(query: VisaQuery, field: string): any[] {
         const mustQueries: any[] = this.setMustQuery(query);
 
@@ -239,7 +251,6 @@ class VisaService {
             return true;
         });
     }
-
 
     transformSearchParamsToQuery(params: SearchParams): VisaQuery {
         const query: VisaQuery = {};

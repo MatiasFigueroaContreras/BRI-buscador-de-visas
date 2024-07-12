@@ -42,8 +42,9 @@ export default function VisaSurrogate({visa} : {visa: Visa}) {
           <div className="flex gap-1 font-medium items-start">
             <ScheduleIcon className="w-6" />
             <span>
-              {visa.visa_duration}{" "}
-              {needDurationText(visa.visa_duration) ? "of duration" : ""}
+              {visa.visa_duration + " days"}{" "}
+            
+              
             </span>
           </div>
         </section>

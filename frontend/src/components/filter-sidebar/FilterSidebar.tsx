@@ -30,6 +30,7 @@ export default function FiltersBar({
     router.push(`${pathname}?${params.toString()}`)
   }
 
+
   const changeUrlArray = (key: string, values: string[]) => {
     const params = new URLSearchParams(searchParams.toString())
     params.delete(key)

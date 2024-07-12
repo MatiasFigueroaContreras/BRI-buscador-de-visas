@@ -50,6 +50,9 @@
             },
             "capital_required": {
                 "type": "integer"
+            },
+            "visa_duration": {
+                "type": "integer"
             }
         }
     }

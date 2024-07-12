@@ -101,7 +101,7 @@ class VisaIndexer:
             "categories": row['Categories'],
             "processing_time": row['Processing Time'],
             "processing_fee": row['Processing Fee (USD)'],
-            "visa_duration": row['Visa Duration'],
+            "visa_duration": row['Visa Duration2'],
             "extension_possibility": row['Possibility of Extension'],
             "evisa_availability": row['E-visa Availability'],
             "type_of_visa": row['Type of Visa'],
