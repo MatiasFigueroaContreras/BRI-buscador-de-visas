@@ -18,7 +18,7 @@ export default function FastSearchBox({
   return (
     <Link
       href={`/visas/?${searchParams}`}
-      className="bg-white rounded-lg shadow-md p-4 border border-black"
+      className="bg-white rounded-lg shadow-md p-4 border border-black transform transition-transform hover:scale-105"
       style={{
         height: "230px",
         width: "500px",
